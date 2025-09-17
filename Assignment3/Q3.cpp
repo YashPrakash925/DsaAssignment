@@ -1,29 +1,67 @@
 #include <bits/stdc++.h>
 using namespace std;
-void cb(){
-    string exp;
-    cout<<"Enter expression: ";
-    cin>>exp;
-    char arr[1000];
-    int top=-1, flag=1;
-    for(int i=0;i<exp.length();i++){
-        char c=exp[i];
-        if(c=='('||c=='['||c=='{'){
-            arr[++top]=c; 
+#define n 100
+class Stack{
+    char arr[n];
+    int top=-1;
+public:
+    int isFull(){
+        if(top==n-1) return 1;
+        else return 0;
+    }
+    int isEmpty(){
+        if(top==-1) return 1;
+        else return 0;
+    }
+    void push(char x){
+        if(top==n-1){
+            cout<<"Overflow\n";
+            return;
         }
-        else if(c==')'||c==']'||c=='}'){
-            if(top==-1){ flag=0; break; }
-            char open=arr[top--]; 
-            if((open=='('&&c!=')')||(open=='['&&c!=']')||(open=='{'&&c!='}')){
-                flag=0; break;
-            }
+        else{
+            top++;
+            arr[top]=x;
         }
     }
-    if(top!=-1) flag=0;
-    if(flag==1) cout<<"Balanced";
-    else cout<<"Not Balanced";
+    void pop(){
+        if(top==-1){
+            cout<<"Underflow\n";
+        }
+        else{
+            top--;
+        }
+    }
+    void peek(){
+        cout<<"Element at top is "<<arr[top]<<endl;
+    }
+    void print(){
+        for(int i=top;i>=0;i--){
+            cout<<arr[i]<<" ";
+        }
+        cout<<endl;
+    }
+};
+void match(string exp){
+    Stack s;
+    int size=exp.size();
+    for(int i=0;i<size;i++){
+        if(exp[i]=='(') s.push(exp[i]);
+        else if(exp[i]==')'){
+            if(s.isEmpty()){
+            cout<<"Unbalanced\n";
+            return;
+            }
+            else s.pop();
+        }
+    }
+    if(s.isEmpty()){
+    cout<<"Balanced\n";
+    return;
+    }
+    else cout<<"Unbalanced\n";
 }
 int main(){
-    cb();
+    string exp="(((a+b))+)";
+    match(exp);
     return 0;
 }
