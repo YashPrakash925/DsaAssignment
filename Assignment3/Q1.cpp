@@ -30,7 +30,7 @@ public:
         else cout<<"stack not Full";
     }
     void display(){
-        for(int i=0;i<=top;i++) cout<<arr[i]<<" ";
+        for(int i=top;i>=0;i++) cout<<arr[i]<<" ";
     }
 };
 int main(){
@@ -55,4 +55,5 @@ int main(){
     }
     cout<<"Exiting program.\n";
     return 0;
+
 }
