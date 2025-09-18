@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 class Stack{
-    static const int max=5;
     int arr[max];
     int top=-1;
 public:
@@ -57,3 +56,4 @@ int main(){
     return 0;
 
 }
+
