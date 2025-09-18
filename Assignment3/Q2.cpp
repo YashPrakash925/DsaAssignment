@@ -1,28 +1,57 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define n 100
 class Stack{
-    static const int MAX=1000;
-    char arr[MAX];
-    int top;
+    char arr[n];
+    int top=-1;
 public:
-    Stack(){ top=-1; }
-    void push(char c){
-        if(top<MAX-1) arr[++top]=c;
+    int isFull(){
+        if(top==n-1) return 1;
+        else return 0;
     }
-    char pop(){
-        if(top==-1) return '\0';
-        return arr[top--];
+    int isEmpty(){
+        if(top==-1) return 1;
+        else return 0;
     }
-    bool isEmpty(){ return top==-1; }
+    void push(char x){
+        if(top==n-1){
+            cout<<"Overflow\n";
+            return;
+        }
+        else{
+            top++;
+            arr[top]=x;
+        }
+    }
+    void pop(){
+        if(top==-1){
+            cout<<"Underflow\n";
+        }
+        else{
+            top--;
+        }
+    }
+    void peek(){
+        cout<<"Element at top is "<<arr[top]<<endl;
+    }
+    void print(){
+        for(int i=top;i>=0;i--){
+            cout<<arr[i];
+        }
+        cout<<endl;
+    }
 };
-
+void ros(){
+    Stack s;
+    string exp;
+    cout<<"Enter string :";
+    cin>>exp;
+    for(int i=0;i<exp.size();i++){
+        s.push(exp[i]);
+    }
+    s.print();
+}
 int main(){
-    string s,r=""; 
-    cout<<"Enter a string: ";
-    cin>>s;
-    Stack st;
-    for(char c:s) st.push(c);
-    while(!st.isEmpty()) r+=st.pop();
-    cout<<"Reversed:"<<r;
+    ros();
     return 0;
 }
