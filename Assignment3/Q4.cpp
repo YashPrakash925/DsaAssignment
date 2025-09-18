@@ -1,35 +1,75 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-int prec(char c){
-    if(c=='^') return 3;
+#define n 100
+class Stack {
+    char arr[n];
+    int top=-1;
+public:
+    int isFull(){
+        return top==n-1;
+    }
+    int isEmpty(){
+        return top==-1;
+    }
+    void push(char x){
+        if(isFull()) cout<<"Overflow\n";
+        else arr[++top]=x;
+    }
+    char pop(){
+        if(isEmpty()){
+            cout<<"Underflow\n";
+            return '\0';
+        }
+        return arr[top--];
+    }
+    char peek(){
+        if(isEmpty()) return '\0';
+        return arr[top];
+    }
+};
+int pre(char c){
     if(c=='*'||c=='/') return 2;
-    if(c=='+'||c=='-') return 1;
-    return -1;
+    else if(c=='+'||c=='-') return 1;
+    else return 0;
 }
-void itp(){
-    string exp;
-    cout<<"Enter ecpression: ";
-    cin>>exp;
-    char st[1000]; int top=-1;
-    string res="";
-    for(int i=0;i<exp.length();i++){
-        char c=exp[i];
-        if((c>='a'&&c<='z')||(c>='A'&&c<='Z')||(c>='0'&&c<='9')) res+=c;
-        else if(c=='(') st[++top]=c;
-        else if(c==')'){
-            while(top!=-1&&st[top]!='(') res+=st[top--];
-            if(top!=-1&&st[top]=='(') top--;
+int isOperand(char c){
+    if(c=='*'||c=='/'||c=='+'||c=='-'||c=='('||c==')') return 0;
+    else return 1;
+}
+void convert(string infix){
+    Stack s;
+    char postfix[100];
+    int i=0,j=0;
+    while(infix[i]!='\0'){
+        if(infix[i]==' '){i++; continue;}
+        if(isOperand(infix[i])){
+            postfix[j++]=infix[i++];
+        }
+        else if(infix[i]=='('){
+            s.push(infix[i++]);
+        }
+        else if(infix[i]==')'){
+            while(!s.isEmpty()&&s.peek()!='('){
+                postfix[j++]=s.pop();
+            }
+            s.pop();
+            i++;
         }
         else{
-            while(top!=-1&&prec(st[top])>=prec(c)) res+=st[top--];
-            st[++top]=c;
+            while(!s.isEmpty()&&pre(infix[i])<=pre(s.peek())){
+                postfix[j++]=s.pop();
+            }
+            s.push(infix[i++]);
         }
     }
-    while(top!=-1) res+=st[top--];
-    cout<<res;
+    while(!s.isEmpty()){
+        postfix[j++]=s.pop();
+    }
+    postfix[j]='\0';
+    cout<<postfix<<endl;
 }
 int main(){
-    itp();
+    string infix="a+b*c";
+    convert(infix);
     return 0;
 }
