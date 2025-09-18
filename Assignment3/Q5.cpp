@@ -1,75 +1,84 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define n 100
-class Stack {
-    char arr[n];
+class Stack{
+    int arr[n];
     int top=-1;
 public:
     int isFull(){
-        return top==n-1;
+        if(top==n-1) return 1;
+        else return 0;
     }
     int isEmpty(){
-        return top==-1;
+        if(top==-1) return 1;
+        else return 0;
     }
-    void push(char x){
-        if(isFull()) cout<<"Overflow\n";
-        else arr[++top]=x;
-    }
-    char pop(){
-        if(isEmpty()){
-            cout<<"Underflow\n";
-            return '\0';
+    void push(int x){
+        if(top==n-1){
+            cout<<"Overflow\n";
+            return;
         }
-        return arr[top--];
+        else{
+            top++;
+            arr[top]=x;
+        }
     }
-    char peek(){
-        if(isEmpty()) return '\0';
-        return arr[top];
+    int pop(){
+        if(top==-1){
+            cout<<"Underflow\n";
+        }
+        else{
+            return arr[top--];
+        }
+    }
+    void peek(){
+        cout<<arr[top]<<endl;
+    }
+    void print(){
+        for(int i=top;i>=0;i--){
+            cout<<arr[i];
+        }
+        cout<<endl;
     }
 };
-int pre(char c){
-    if(c=='*'||c=='/') return 2;
-    else if(c=='+'||c=='-') return 1;
-    else return 0;
-}
 int isOperand(char c){
     if(c=='*'||c=='/'||c=='+'||c=='-'||c=='('||c==')') return 0;
     else return 1;
 }
-void convert(string infix){
+void eval(char postfix[]){
     Stack s;
-    char postfix[100];
-    int i=0,j=0;
-    while(infix[i]!='\0'){
-        if(infix[i]==' '){i++; continue;}
-        if(isOperand(infix[i])){
-            postfix[j++]=infix[i++];
+    int size=strlen(postfix);
+    for(int i=0;i<size;i++){
+        if(postfix[i]==' ') {
+            continue;
         }
-        else if(infix[i]=='('){
-            s.push(infix[i++]);
+        if(isOperand(postfix[i])){
+            s.push(postfix[i]-'0');
         }
-        else if(infix[i]==')'){
-            while(!s.isEmpty()&&s.peek()!='('){
-                postfix[j++]=s.pop();
+        else if(!isOperand(postfix[i])){
+            char op=postfix[i];
+            int x1=s.pop();
+            int x2=s.pop();
+            switch(op){
+                case '+':
+                    s.push(x2+x1);
+                    break;
+                case '-':
+                    s.push(x2-x1);
+                    break;
+                case '*':
+                    s.push(x2*x1);
+                    break;
+                case '/':
+                    s.push(x2/x1);
+                    break;
             }
-            s.pop();
-            i++;
-        }
-        else{
-            while(!s.isEmpty()&&pre(infix[i])<=pre(s.peek())){
-                postfix[j++]=s.pop();
-            }
-            s.push(infix[i++]);
         }
     }
-    while(!s.isEmpty()){
-        postfix[j++]=s.pop();
-    }
-    postfix[j]='\0';
-    cout<<postfix<<endl;
+    s.peek();
 }
 int main(){
-    string infix="a+b*c";
-    convert(infix);
+    char postfix[]={"1 2 + 3 *"};
+    eval(postfix);
     return 0;
 }
