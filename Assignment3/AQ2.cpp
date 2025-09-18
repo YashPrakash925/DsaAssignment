@@ -14,11 +14,17 @@ public:
             if(num<m) m=num; 
         }
     }
-    void pop(){
-        if(top==-1) cout<<"Not possible , stack is empty";
-        else{ 
-            arr[top];
-            top--; 
+    void pop() {
+        if (top == -1) {
+            cout << "Not possible, stack is empty\n";
+            return;
+        }
+        int popped = arr[top--];
+        if (popped == m) {
+            m = INT_MAX;
+            for (int i = 0; i <= top; i++) {
+                if (arr[i] < m) m = arr[i];
+            }
         }
     }
     int peek(){
@@ -44,7 +50,8 @@ int main(){
     Stack s;
     s.push(18);
     s.push(15);
-    s.push(19);
+    s.push(9);
+    s.pop();
     s.getmin();
     return 0;
 }
