@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define n 100
 class Stack{
-    int arr[max];
+    int arr[n];
     int top=-1;
 public:
     void push(int num){
@@ -56,4 +57,5 @@ int main(){
     return 0;
 
 }
+
 
