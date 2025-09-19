@@ -1,79 +1,61 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define MAX 100
+#define MAX 500
 class Queue{
-	int arr[MAX];
-	int front,rear;
+	int q[MAX],front=-1,rear=-1;
 public:
-	Queue(){ 
-        front=rear=-1;
-    }
 	int isEmpty(){
-        return front==-1;
-    }
+		if(front==-1||front>rear)return 1;
+		return 0;
+	}
 	int isFull(){
-        return rear==MAX-1;
-    }
+		if(rear==MAX-1)return 1;
+		return 0;
+	}
 	void enqueue(int x){
-		if(isFull()) return;
-		if(front==-1) front=0;
-		arr[++rear]=x;
+		if(isFull())cout<<"QueueFull\n";
+		else{
+			if(front==-1)front=0;
+			q[++rear]=x;
+	}
 	}
 	int dequeue(){
-		if(isEmpty()) return -1;
-		int val=arr[front];
-		if(front==rear) front=rear=-1;
-		else front++;
-		return val;
+		if(isEmpty())cout<<"QueueEmpty\n";
+		else return q[front++];
 	}
-	int size(){
-		if(isEmpty()) return 0;
-		return rear-front+1;
+	void peek(){
+		if(isEmpty())cout<<"QueueEmpty\n";
+		else cout<<"Front:"<<q[front]<<"\n";
 	}
 	void display(){
-		for(int i=front;i<=rear;i++)
-			cout<<arr[i]<<" ";
-		cout<<endl;
+		if(isEmpty())cout<<"QueueEmpty\n";
+		else{
+			for(int i=front;i<=rear;i++)cout<<q[i]<<" ";
+				cout<<"\n";
+	}
 	}
 };
-class Stack{
-	int arr[MAX];
-	int top;
-public:
-	Stack(){ top=-1; }
-	int isEmpty(){ return top==-1; }
-	int isFull(){ return top==MAX-1; }
-	void push(int x){
-		if(!isFull()) arr[++top]=x;
-	}
-	int pop(){
-		if(isEmpty()) return -1;
-		return arr[top--];
-	}
-};
-int main(){
-	Queue q;
+void ilq(){
+	Queue q1,q2,q3;
 	int n;
+	cout<<"Enter size: ";
 	cin>>n;
+	cout<<"Enter queue:\n";
 	for(int i=0;i<n;i++){
 		int x;
 		cin>>x;
-		q.enqueue(x);
+		q1.enqueue(x);
 	}
-	int half=q.size()/2;
-	Stack s;
-	for(int i=0;i<half;i++)
-		s.push(q.dequeue());
-	while(!s.isEmpty())
-		q.enqueue(s.pop());
-	for(int i=0;i<half;i++)
-		q.enqueue(q.dequeue());
-	for(int i=0;i<half;i++)
-		s.push(q.dequeue());
-	while(!s.isEmpty()){
-		q.enqueue(s.pop());
-		q.enqueue(q.dequeue());
+	for(int i=0;i<n/2;i++){
+		q2.enqueue(q1.dequeue());
 	}
-	q.display();
+	for(int i=0;i<n/2;i++){
+		q3.enqueue(q2.dequeue());
+		q3.enqueue(q1.dequeue());
+	}
+	q3.display();
+}
+int main(){
+	ilq();
 	return 0;
 }
