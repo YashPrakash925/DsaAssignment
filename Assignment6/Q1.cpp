@@ -59,79 +59,40 @@ void insertafter(Node* &t,int x,int value){
     temp1->prev=p;
     return;
 }
-void delbegin(Node* &t){
-    if(t==NULL){
-        cout<<"Empty\n";
-        return;
-    }
-    if(t->next==NULL){
-        t=NULL;
-        return;
-    }
-    Node* temp=t->next;
-    temp->prev=NULL;
-    t->next=NULL;
-    t=temp;
-}
-void delend(Node* &t){
-    if(t==NULL){
-        cout<<"Empty\n";
-        return;
-    }
-    if(t->next==NULL){
-        t=NULL;
-        return;
-    }
-    Node* temp=t;
-    Node* temp1=NULL;
-    while(temp->next!=NULL){
-        temp1=temp;
-        temp=temp->next;
-    }
-    temp->prev=NULL;
-    temp1->next=NULL;
-}
-void del(Node* &t,int value){
-    if(t==NULL){
-        cout<<"Empty\n";
-        return;
-    }
-    Node* temp=t;
-    Node* temp1=NULL;
-    while(temp!=NULL && temp->data!=value){
-        temp1=temp;
-        temp=temp->next;
-    }
-    if(temp==NULL){
-        cout<<"Invalid\n";
-        return;
-    }
-    if(temp->prev==NULL){
-        if(temp->next==NULL){
-            temp=NULL;
-            return;
-        }
-        Node* p=temp->next;
-        p->prev=NULL;
-        temp->next=NULL;
-        t=p;
-        return;
-    }
-    else if(temp->next==NULL){
-        Node* p=temp->prev;
-        p->next=NULL;
-        temp->prev=NULL;
-        t=p;
-        return;
-    }
-    else{
-        Node* a=temp->prev;
-        Node* b=temp->next;
-        a->next=temp->next;
-        b->prev=temp->prev;
-        temp->next=temp->prev=NULL;
-        return;
-    }
+void del(Node* &t,int x){
+	if(t==NULL){
+		return;
+	}
+	Node* temp=t;
+	if(temp->back==NULL && temp->next==NULL){
+		t=NULL;
+		return;
+	}
+	if(temp->back==NULL && temp->data==x){
+		Node* p=temp->next;
+		p->back=NULL;
+		temp->next=NULL;
+		t=p;
+		return;
+	}
+	Node* p=NULL;
+	while(temp!=NULL && temp->data!=x){
+		p=temp;
+		temp=temp->next;
+	}
+	if(temp==NULL){
+		cout<<"Invalid\n";
+		return;
+	}
+	if(temp->next==NULL){
+		p->next=NULL;
+		temp->back=NULL;
+		return;
+	}
+	Node* q=temp->next;
+	p->next=temp->next;
+	q->back=temp->back;
+	temp->back=temp->next=NULL;
 }
 void search(Node* t,int x){
     if(t==NULL){
@@ -164,4 +125,5 @@ int main(){
     del(root,20);
     display(root);
     return 0;
+
 }
