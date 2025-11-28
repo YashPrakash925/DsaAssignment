@@ -2,7 +2,6 @@
 using namespace std;
 #define MAX 100
 #define INF 999999
-
 class Graph{
 public:
 	int V,adj[MAX][MAX];
@@ -105,7 +104,6 @@ public:
 			cout<<i<<" "<<d[i]<<endl;
 	}
 };
-
 int main(){
 	Graph g(5);
 	g.addEdge(0,1,2);
@@ -119,3 +117,4 @@ int main(){
 	g.prim(0);
 	g.dijkstra(0);
 }
+
